@@ -45,8 +45,8 @@ if archivo_csv is not None:
                         if len(peliculas) > 0:
                             for titulo in peliculas:
                                 st.markdown(f"- {titulo}")
-            else:
-                st.info("No se encontraron producciones para este actor.")
+                else:
+                    st.info("No se encontraron producciones para este actor.")
         except Exception as e:
             st.error(f"❌ Error al procesar la búsqueda de este actor: {e}")
 
