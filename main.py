@@ -35,13 +35,21 @@ if archivo_csv is not None:
             st.write("Haz clic sobre un actor para ver en qué producciones aparece:")
 
             # Mostrar nombres de actores como enlaces interactivos
+            # Mostrar nombres de actores como enlaces interactivos
             for actor in conteo_actores.index:
                 if st.button(actor):
                     st.subheader(f"🎥 Producciones con {actor}:")
-                    mask = df['cast'].dropna().astype(str).str.contains(actor)
-                    peliculas = df.loc[mask, 'title'].dropna().unique()
-                    for titulo in peliculas:
-                        st.markdown(f"- {titulo}")
+                    try:
+                        mask = df['cast'].dropna().astype(str).str.contains(actor, regex=False)
+                        peliculas = df.loc[mask, 'title'].dropna().unique()
+                        if len(peliculas) > 0:
+                            for titulo in peliculas:
+                                st.markdown(f"- {titulo}")
+            else:
+                st.info("No se encontraron producciones para este actor.")
+        except Exception as e:
+            st.error(f"❌ Error al procesar la búsqueda de este actor: {e}")
+
 
             # Mostrar tabla y gráfico
             df_resultado = pd.DataFrame({
