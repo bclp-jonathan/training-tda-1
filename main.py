@@ -34,8 +34,7 @@ if archivo_csv is not None:
 
             st.write("Haz clic sobre un actor para ver en qué producciones aparece:")
 
-            # Mostrar nombres de actores como enlaces interactivos
-            # Mostrar nombres de actores como enlaces interactivos
+            # Mostrar nombres de actores como botones
             for actor in conteo_actores.index:
                 if st.button(actor):
                     st.subheader(f"🎥 Producciones con {actor}:")
@@ -45,20 +44,19 @@ if archivo_csv is not None:
                         if len(peliculas) > 0:
                             for titulo in peliculas:
                                 st.markdown(f"- {titulo}")
-                else:
-                    st.info("No se encontraron producciones para este actor.")
-        except Exception as e:
-            st.error(f"❌ Error al procesar la búsqueda de este actor: {e}")
+                        else:
+                            st.info("No se encontraron producciones para este actor.")
+                    except Exception as e:
+                        st.error(f"❌ Error al procesar la búsqueda de este actor: {e}")
 
-
-            # Mostrar tabla y gráfico
+            # Mostrar tabla de actores y conteo
             df_resultado = pd.DataFrame({
                 "Actor": conteo_actores.index,
                 "Número de apariciones": conteo_actores.values
             })
             st.dataframe(df_resultado)
 
-            # Gráfico
+            # Gráfico de barras
             fig, ax = plt.subplots(figsize=(8, 5))
             conteo_actores.sort_values().plot(kind='barh', ax=ax, color='skyblue')
             ax.set_xlabel("Número de apariciones")
